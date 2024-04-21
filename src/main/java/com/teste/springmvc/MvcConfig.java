@@ -8,25 +8,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebMvc
@@ -34,12 +25,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Autowired
     private ApplicationContext applicationContext;
-
-	/* @Override
-	public void configureViewResolvers(ViewResolverRegistry registry) {
-		registry.jsp("/WEB-INF/views/jsp/", ".jsp").cache(true);
-	} */
-	
+		
     @Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index"); // Map root URL to "index" view		
@@ -51,12 +37,6 @@ public class MvcConfig implements WebMvcConfigurer {
 			.addResourceLocations("/static/");
 	}
 
-   /*  @Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoggingInterceptor())
-			.addPathPatterns("/auth/**");
-	} */
-
     @Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 		configurer.defaultContentType(MediaType.APPLICATION_JSON); // Set default content type
@@ -65,16 +45,7 @@ public class MvcConfig implements WebMvcConfigurer {
 		configurer.mediaType("json", MediaType.APPLICATION_JSON); // Define media type for JSON
 	}
 
-    /* @Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		
-		// Clear the default converters
-		converters.clear();
-		// Use Jackson for XML
-		converters.add(new MappingJackson2XmlHttpMessageConverter());
-		// Use Gson for JSON
-		converters.add(new GsonHttpMessageConverter());
-	} */
+   
 
     @Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -87,30 +58,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	}
 
 
-    /* @Override
-	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		resolvers.add(new CustomExceptionResolver());
-	}
-
-
-    private static class CustomExceptionResolver implements HandlerExceptionResolver {
-
-		@Override
-		public ModelAndView resolveException(
-			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-
-			if (ex instanceof Exception) {
-
-				ModelAndView modelAndView = new ModelAndView();
-				modelAndView.setViewName("some-exception");
-				modelAndView.addObject("message", "SomeException occurred: " + ex.getMessage());
-				return modelAndView;
-			}
-			return null;
-		}
-} */
-
-
+    
 //Thymeleaf configs
 @Bean
 public ResourceBundleMessageSource messageSource() {
